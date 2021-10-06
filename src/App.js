@@ -267,29 +267,72 @@ class App extends Component {
         this.state = {
             input: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
             url: '',
-            box: {}
+            box: {},
+            age: '',
+            wait:'idel'
         }
     }
 
   calculateFaceLoc = (region) => {
-    console.log('');
+    const img = document.getElementById('inputimg');
+    const width = Number(img.width);
+    const height = Number(img.height);
+    return {
+      leftCol: region.left_col * width,
+      rightCol: width - region.right_col * width,
+      topRow: region.top_row * height,
+      bottomRow: height - region.bottom_row * height
+    }
+  }
+
+  displayBox = (box) => { 
+    console.log(box);
+    this.setState({box: box});
   }
 
   onInputChange = (event) => {
     this.setState({input: event.target.value});
   }
 
+  getAge = (ages) => {
+    var max = -1;
+    var index = 0;
+    for(var i = 0; i < 9; i++){
+      if(ages[i].value > max){
+        max = ages[i].value;
+        index = i;
+      }
+    }
+    this.setState({age: ages[index].name});
+  }
+
   onButtonSubmit = (event) => {
-    this.setState({url: this.state.input});
+    this.setState({url: this.state.input, wait: 'loading'});
+
     app.models
     .predict("a403429f2ddf4b49b307e318f00e528b",
              this.state.input)
-    .then(
-      function(response) {
-        this.calculateFaceLoc(response.outputs[0].data.regions[0].region_info.bounding_box);
-      })
-    .catch(err => console.log(err))
-  }
+    .then(response =>
+        this.displayBox(
+          this.calculateFaceLoc(
+            response.outputs[0].data.regions[0].region_info.bounding_box
+          )
+        )
+      )
+    .catch(err => console.log(err));
+
+    app.models
+    .predict("36f90889189ad96c516d134bc713004d",
+             this.state.input)
+    .then(response =>
+          this.getAge(
+          response.outputs[0].data.concepts
+        )
+      )
+    .catch(err => console.log(err));
+
+    this.setState({wait: 'success'});
+    }
 
   render(){
     return(
@@ -300,12 +343,13 @@ class App extends Component {
           options={particleOptions}
         />
         <Navigation />
+        <Counter />
         <ImageLinkForm 
         oninputchange={this.onInputChange} 
         onbuttonsubmit={this.onButtonSubmit}
+        wait={this.wait}
         />
-        <Counter />
-        <FaceRecognition url={this.state.url}/>
+        <FaceRecognition url={this.state.url} box={this.state.box} age={this.state.age}/>
       </div>
     )
   }

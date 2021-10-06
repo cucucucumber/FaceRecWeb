@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactiveButton from 'reactive-button';
 import './ImageLinkForm.css';
 
 const ImageLinkForm = ({oninputchange, onbuttonsubmit}) => {
@@ -10,16 +11,30 @@ const ImageLinkForm = ({oninputchange, onbuttonsubmit}) => {
 			<div className='center'>
 				<div className='form center pa4 br3 shadow-5'>
 					<input 
-					className='f4 pa2 w-70 center' 
+					className='f4 pa2 w-70 center'
 					type='tex' 
 					onChange={oninputchange}
 					placeholder='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80'
 					/>
-					<button 
-					className='w-30 grow f4 link ph3 pv2 dib white bg-light-purple'
-					onClick = {onbuttonsubmit}
-					>Detect
-					</button>
+					<ReactiveButton
+			         onClick={onbuttonsubmit}
+			         color={'primary'}
+			         idleText={'Detect'}
+			         loadingText={'Loading'}
+			         successText={'Success'}
+			         errorText={'Error'}
+			         type={'button'}
+			         size={"large"}
+			         className={'class1 class2'}
+			         shadow={true}
+			         rounded={true}
+			         messageDuration={2000}
+			         disabled={false}
+			         buttonRef={null}
+			         width={130}
+			         height={null}
+			         animation={true}
+			    />
 				</div>
 			</div>
 		</div>

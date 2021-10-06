@@ -7,7 +7,7 @@ const Counter = () => {
 				{'Dear Guest, you are the first one visiting my warm small website'}
 			</div>
 			<div className='f1 center white'>
-				{'I LOVE YOU'}
+				{'Ya~~'}
 			</div>
 		</div>
 	)
