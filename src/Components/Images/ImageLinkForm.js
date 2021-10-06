@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import ReactiveButton from 'reactive-button';
 import './ImageLinkForm.css';
 
-const ImageLinkForm = ({oninputchange, onbuttonsubmit}) => {
+const ImageLinkForm = ({oninputchange, onbuttonsubmit, status}) => {
+	const [state, setState] = useState('idle');
+	const onClickHandler = () => {
+        setState('loading');
+        setTimeout(() => {
+            setState('success');
+        }, 1500);
+    }
 	return (
 		<div>
 			<p className='f3 center white'>
@@ -17,7 +24,8 @@ const ImageLinkForm = ({oninputchange, onbuttonsubmit}) => {
 					placeholder='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80'
 					/>
 					<ReactiveButton
-			         onClick={onbuttonsubmit}
+					 buttonState={state}
+			         onClick={() => { onbuttonsubmit(); onClickHandler();}}
 			         color={'primary'}
 			         idleText={'Detect'}
 			         loadingText={'Loading'}
@@ -28,7 +36,7 @@ const ImageLinkForm = ({oninputchange, onbuttonsubmit}) => {
 			         className={'class1 class2'}
 			         shadow={true}
 			         rounded={true}
-			         messageDuration={2000}
+			         messageDuration={1500}
 			         disabled={false}
 			         buttonRef={null}
 			         width={130}
