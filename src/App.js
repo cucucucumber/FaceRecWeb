@@ -13,9 +13,10 @@ const app = new Clarifai.App({
   apiKey: "32d42b82134d443f811e06d70159bef1"
 })
 
-const backupLinks = ['https://media.istockphoto.com/photos/portrait-of-handsome-latino-african-man-picture-id1007763808?k=20&m=1007763808&s=612x612&w=0&h=q4qlV-99EK1VHePL1-Xon4gpdpK7kz3631XK4Hgr1ls=',
-'https://cdn.vox-cdn.com/thumbor/CP12Lpr7uYOQbo8d14ArHyDEScI=/1400x788/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/22326168/gandalf_shire_lord_of_the_rings.jpg',
+const backupLinks = [
 'https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F61530ce41c694f8f8bb71a4c%2F0x0.jpg',
+'https://cdn.vox-cdn.com/thumbor/CP12Lpr7uYOQbo8d14ArHyDEScI=/1400x788/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/22326168/gandalf_shire_lord_of_the_rings.jpg',
+'https://media.istockphoto.com/photos/portrait-of-handsome-latino-african-man-picture-id1007763808?k=20&m=1007763808&s=612x612&w=0&h=q4qlV-99EK1VHePL1-Xon4gpdpK7kz3631XK4Hgr1ls=',
 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80']
 
 const particleOptions = {
