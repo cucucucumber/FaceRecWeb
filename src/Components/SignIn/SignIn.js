@@ -1,11 +1,13 @@
 import React from 'react';
+import './SignIn.css'
 
 class SignIn extends React.Component {
 	constructor(props) {
 	    super(props);
 	    this.state = {
 	      signInEmail: '',
-	      signInPassword: ''
+	      signInPassword: '',
+	      msg: ''
 	    }
 	}
 
@@ -30,11 +32,11 @@ class SignIn extends React.Component {
 	    .then(response => response.json())
 	    .then(response => {
 	        if (response.statusCode === 200) {
-	        	console.log(response.body.Rank)
+	        	this.setState({msg: ""})
 		        this.props.loadUser(response.body);
 		        this.props.onRouteChange('home');
 	        } else {
-	        	console.log('failed')
+	        	this.setState({msg: "invalid credentials"})
 	        }
 	    })
 	}
@@ -46,9 +48,10 @@ class SignIn extends React.Component {
 			        <main className="pa4 white-80">
 			          <div className="measure">
 			            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-			              <legend className="f2 fw6 ph0 mh0">Sign In</legend>
+			              <legend className="f1 ph0 mh0">Log In / Register</legend>
+			              <h3 className="red"> { this.state.msg } </h3> 
 			              <div className="mt3">
-			                <label className="db fw6 lh-copy f6" htmlFor="email-address">Username</label>
+			                <label className="db lh-copy f6" htmlFor="email-address">Username</label>
 			                <input
 			                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-yellow w-100 white"
 			                  type="email"
@@ -58,7 +61,7 @@ class SignIn extends React.Component {
 			                />
 			              </div>
 			              <div className="mv3">
-			                <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+			                <label className="db lh-copy f6" htmlFor="password">Password</label>
 			                <input
 			                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-yellow white w-100"
 			                  type="password"
@@ -71,7 +74,7 @@ class SignIn extends React.Component {
 			            <div className="">
 			              <input
 			              	onClick={this.onSubmitSignIn}
-			                className="b ph3 pv2 input-reset white ba b--white bg-transparent grow pointer f6 dib"
+			                className="ph3 pv2 input-reset white ba b--white bg-transparent grow pointer f6 dib hover-yellow"
 			                type="submit"
 			                value="Sign in"
 			              />
@@ -79,7 +82,7 @@ class SignIn extends React.Component {
 			            <div className="lh-copy mt3">
 			              <p
 			              onClick={() => onRouteChange('register')}
-			              className="f6 link dim white db pointer"
+			              className="f6 link dim white db pointer hover-yellow grow"
 			              >Register
 			              </p>
 			            </div>

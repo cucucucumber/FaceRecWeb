@@ -9,6 +9,8 @@ class Register extends React.Component {
 	    this.state = {
 	      email: '',
 	      password: '',
+	      msg: '',
+	      secret: true
 	    }
 	}
 
@@ -37,24 +39,36 @@ class Register extends React.Component {
 	}
 
 	onSubmitSignIn = () => {
-	    fetch('https://s61qq6qer7.execute-api.us-west-1.amazonaws.com/login', {
-	      method: 'post',
-	      headers: {'Content-Type': 'application/json'},
-	      body: JSON.stringify({
-	        Email: this.state.email,
-	        Password: this.state.password,
-	        Type: 'Register'
-	      })
-	    })
-	      .then(response => response.json())
-	      .then(response => {
-	        if (response.statusCode === 200) {
-	          this.props.loadUser(response.body)
-	          this.props.onRouteChange('home');
-	        } else {
-	        	console.log(response)
-	        }
-	      })
+		if(this.state.password.length < 6){
+			this.setState({msg: 'Minimum Password Length is 6'})
+		}
+		else{
+			this.setState({msg: ''})
+			fetch('https://s61qq6qer7.execute-api.us-west-1.amazonaws.com/login', {
+		      method: 'post',
+		      headers: {'Content-Type': 'application/json'},
+		      body: JSON.stringify({
+		        Email: this.state.email,
+		        Password: this.state.password,
+		        Type: 'Register'
+		      })
+		    })
+		      .then(response => response.json())
+		      .then(response => {
+		        if (response.statusCode === 200) {
+		          this.props.loadUser(response.body)
+		          this.props.onRouteChange('home');
+		        } else {
+		        	this.setState({msg: "Registration Failed: Network Issue"})
+		        }
+		      })
+		  }
+	}
+
+		togglePassword = () => {
+	    // When the handler is invoked
+	    // inverse the boolean state of passwordShown
+	    this.setState({secret: !this.state.secret});
 	  }
 
 	  render () {
@@ -63,9 +77,10 @@ class Register extends React.Component {
 			        <main className="pa4 white-80">
 			          <div className="measure">
 			            <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-			              <legend className="f2 fw6 ph0 mh0">Register</legend>
+			              <legend className="f2 ph0 mh0">Register</legend>
 			              <div className="mt3">
-			                <label className="db fw6 lh-copy f6" htmlFor="email-address">Username</label>
+			              	<h3 className="red"> { this.state.msg } </h3> 
+			                <label className="db lh-copy f6" htmlFor="email-address">Username</label>
 			                <div className='flex'>
 			                	<div className=" w-100">
 					                <input
@@ -95,18 +110,19 @@ class Register extends React.Component {
 							</div>
 			              </div>
 			              <div className="mt3">
-			              	<label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+			              	<label className="db lh-copy f6" htmlFor="password">Password</label>
 			                <div className='flex'>
 			                	<div className=" w-100">
 					                <input
 					                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-yellow white w-100"
-					                  type="password"
+					                  type={this.state.secret ? "password" : "text"}
 					                  name="password"
 					                  id="password"
 					                  value={this.state.password}
 					                  onChange={this.onPasswordChange}
 					                />
 					            </div>
+
 					            <div>
 				            		<ReactiveButton
 								         color={'yellow'}
@@ -123,16 +139,27 @@ class Register extends React.Component {
 								    />
 								</div>
 							</div>
+							
 			              </div>
 			            </fieldset>
-			            <div className="">
+			            <div className="mt2">
 			              <input
 			              	onClick={this.onSubmitSignIn}
-			                className="b ph3 pv2 input-reset white ba b--white bg-transparent grow pointer f6 dib"
+			                className="b ph3 pv2 input-reset white ba b--white bg-transparent grow hover-yellow pointer f6 dib"
 			                type="submit"
 			                value="Register"
 			              />
 			            </div>
+			            <div className='mt2'>
+				            <ReactiveButton 
+					                color={'secondery'}  
+					                idleText={'show password'} 
+					                onClick={this.togglePassword}
+					                rounded={true}
+					                shadow={true}
+					                size={'small'}
+				            />
+				        </div>
 			          </div>
 			        </main>
 			      </article>

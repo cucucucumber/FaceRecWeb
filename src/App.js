@@ -364,10 +364,13 @@ class App extends Component {
           className="particles"
           options={particleOptions}
         />
-        <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+        <Navigation 
+        isSignedIn={this.state.isSignedIn} 
+        onRouteChange={this.onRouteChange}
+        email={this.state.user.email}/>
         { this.state.route === 'home'
           ? <div>
-              <Counter />
+              <Counter email={this.state.user.email} rank={this.state.user.rank}/>
               <ImageLinkForm 
               oninputchange={this.onInputChange} 
               onbuttonsubmit={this.onButtonSubmit}

@@ -1,13 +1,13 @@
 import React from 'react';
 
-const Counter = () => {
+const Counter = ({email, rank}) => {
 	return (
 		<div>
-			<div className='f3 center white'>
-				{'Dear Guest, you are the first one visiting my warm small website'}
+			<div className='f2 center white'>
+				Welcome, {email}
 			</div>
-			<div className='f1 center white'>
-				{'Ya~~'}
+			<div className='f3 center white'>
+				You are the #{rank} guest visiting this warm website
 			</div>
 		</div>
 	)

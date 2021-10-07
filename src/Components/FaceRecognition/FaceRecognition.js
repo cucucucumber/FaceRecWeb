@@ -10,9 +10,9 @@ const FaceRecognition = ({url, box, age}) => {
 	       		className='bounding-box' 
 	       		style={{left: box.leftCol, top: box.topRow, right: box.rightCol, bottom: box.bottomRow}}
 	       		>
-	       			<div className="bounding-box-concepts">
+	       			<div className="bounding-box-concepts" style = {{display: 'flex', justifyContent: 'flex-end'}}>
 	       				<div className="concept bounding-box__concept">
-	       					<span className="concept__name white">
+	       					<span className="concept__name bg-blue white f6">
 	       						{age}
 	       					</span>
 	       				</div>
