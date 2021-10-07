@@ -274,6 +274,10 @@ class App extends Component {
             status:'loading',
             route: 'signin',
             isSignedIn: false,
+            user: {
+              email: '',
+              rank: 0
+            }
         }
     }
 
@@ -287,6 +291,13 @@ class App extends Component {
       topRow: region.top_row * height,
       bottomRow: height - region.bottom_row * height
     }
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      email: data.Email,
+      rank: data.Rank
+    }})
   }
 
   displayBox = (box) => { 
@@ -367,8 +378,8 @@ class App extends Component {
 
           : (
              this.state.route === 'signin' || this.state.route === 'signout'
-            ? <SignIn onRouteChange={this.onRouteChange}/>
-            : <Register onRouteChange={this.onRouteChange}/>
+            ? <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+            : <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
             )
       }
       </div>
