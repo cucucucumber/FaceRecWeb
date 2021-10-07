@@ -13,6 +13,11 @@ const app = new Clarifai.App({
   apiKey: "32d42b82134d443f811e06d70159bef1"
 })
 
+const backupLinks = ['https://media.istockphoto.com/photos/portrait-of-handsome-latino-african-man-picture-id1007763808?k=20&m=1007763808&s=612x612&w=0&h=q4qlV-99EK1VHePL1-Xon4gpdpK7kz3631XK4Hgr1ls=',
+'https://cdn.vox-cdn.com/thumbor/CP12Lpr7uYOQbo8d14ArHyDEScI=/1400x788/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/22326168/gandalf_shire_lord_of_the_rings.jpg',
+'https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F61530ce41c694f8f8bb71a4c%2F0x0.jpg',
+'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80']
+
 const particleOptions = {
   fullScreen: {
     enable: true
@@ -267,7 +272,8 @@ class App extends Component {
   constructor() {
         super();
         this.state = {
-            input: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80',
+            input: '',
+            index: 0,
             url: '',
             box: {},
             age: '',
@@ -320,12 +326,27 @@ class App extends Component {
     this.setState({age: ages[index].name});
   }
 
+  getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+  }
+
   onButtonSubmit = (event) => {
-    this.setState({url: this.state.input, status: 'loading'});
+    if (this.state.input){
+      this.setState({url: this.state.input, status: 'loading'});
+      var imgLink = this.state.input;
+    } else {
+      var myIndex = this.state.index
+      if (myIndex > 3) {
+        myIndex = 0
+      }
+      var imgLink = backupLinks[myIndex];
+      this.setState({index: myIndex+1});
+      this.setState({url: imgLink, status: 'loading'});
+    }
 
     app.models
     .predict("a403429f2ddf4b49b307e318f00e528b",
-             this.state.input)
+             imgLink)
     .then(response =>
         this.displayBox(
           this.calculateFaceLoc(
@@ -333,11 +354,11 @@ class App extends Component {
           )
         )
       )
-    .catch(err => console.log(err));
+    .catch(err => alert('invalid url'));
 
     app.models
     .predict("36f90889189ad96c516d134bc713004d",
-             this.state.input)
+             imgLink)
     .then(response =>
           this.getAge(
           response.outputs[0].data.concepts

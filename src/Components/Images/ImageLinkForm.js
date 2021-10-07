@@ -13,7 +13,7 @@ const ImageLinkForm = ({oninputchange, onbuttonsubmit, status}) => {
 	return (
 		<div>
 			<p className='f3 center white'>
-			 Click Detect to make prediction
+			 Click Detect to Make Predictions
 			</p>
 			<div className='center'>
 				<div className='form center pa4 br3 shadow-5'>
@@ -21,7 +21,7 @@ const ImageLinkForm = ({oninputchange, onbuttonsubmit, status}) => {
 					className='f4 pa2 w-70 center'
 					type='tex' 
 					onChange={oninputchange}
-					placeholder='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80'
+					placeholder='Image URL, or simply click Detect'
 					/>
 					<ReactiveButton
 					 buttonState={state}
